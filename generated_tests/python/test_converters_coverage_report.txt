@@ -1,0 +1,44 @@
+============================= test session starts ==============================
+platform linux -- Python 3.8.18, pytest-8.3.3, pluggy-1.5.0
+rootdir: /home/runner/work/attrs/attrs
+configfile: ov-report=term-missing
+plugins: hypothesis-6.113.0, cov-5.0.0
+collected 28 items
+
+generated_tests/python/test_converters.py ........F...................   [100%]
+
+=================================== FAILURES ===================================
+_______ test_default_if_none_raises_value_error_with_factory_takes_self ________
+
+    def test_default_if_none_raises_value_error_with_factory_takes_self():
+        """Test default_if_none raises ValueError if the factory has takes_self=True."""
+        factory = Mock()
+        factory.takes_self = True
+        with pytest.raises(ValueError):
+>           default_if_none(factory=factory)
+E           Failed: DID NOT RAISE <class 'ValueError'>
+
+generated_tests/python/test_converters.py:75: Failed
+
+---------- coverage: platform linux, python 3.8.18-final-0 -----------
+Name                                                                                       Stmts   Miss Branch BrPart  Cover   Missing
+--------------------------------------------------------------------------------------------------------------------------------------
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/__init__.py           31     11      4      0    57%   84-98
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/_cmp.py               52     43     24      0    12%   60-109, 117-123, 131-146, 153, 160
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/_compat.py            43     10     10      4    70%   23-24, 55-56, 63, 67, 79, 101-103
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/_config.py             9      5      2      0    36%   16-20, 31
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/_funcs.py            123    112     78      0     5%   63-131, 145-204, 249-323, 339-351, 386-394, 430-448, 504-522
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/_make.py             988    378    517     80    57%   74, 77, 99, 162-163, 167-170, 172-173, 176->180, 181, 184, 187, 239-240, 297-303, 310, 317-341, 360-367, 389, 391-410, 435, 444-445, 456-457, 463, 482-528, 543-551, 558, 628-630, 651-671, 673->exit, 680, 693, 701, 713->726, 715->714, 734-737, 762->770, 765-766, 773-775, 785->793, 802, 808-823, 843, 877-879, 882, 892-901, 916, 924-940, 981, 988-1005, 1035, 1040-1060, 1087-1088, 1092, 1103-1104, 1115-1116, 1123, 1130-1131, 1146-1147, 1171-1175, 1271-1273, 1287, 1297-1298, 1327, 1347, 1351-1352, 1358-1359, 1368-1369, 1377-1380, 1387, 1442-1446, 1466-1468, 1477-1487, 1513-1517, 1542-1546, 1572, 1583-1586, 1592-1595, 1601-1604, 1610-1613, 1663, 1722-1742, 1764-1771, 1783-1789, 1796-1797, 1819-1820, 1833-1837, 1839, 1857->1861, 1893, 1902, 1915, 1936-1957, 2033-2054, 2056-2064, 2078, 2083-2088, 2097, 2104-2120, 2139, 2160, 2181-2188, 2193-2195, 2201-2210, 2214, 2357, 2365-2366, 2588-2592, 2605-2610, 2645, 2651-2652, 2713->exit, 2714-2723, 2729, 2748-2754, 2761, 2771, 2826-2876, 2892-2893, 2908-2916, 2935-2960
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/_next_gen.py          37     25     12      0    24%   347-411, 588, 613, 629
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/_version_info.py      36     21     10      0    37%   43-47, 59-68, 71-76, 79-86
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/converters.py         48     35     26      4    23%   37-52, 82-83, 86-87, 90, 93-101, 106-109, 142-151
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/exceptions.py         19      4      0      0    79%   90-92, 95
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/filters.py            13      9      2      0    27%   14, 36-45, 63-72
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/setters.py            28     19     10      0    24%   19-24, 35, 44-53, 63-73
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/validators.py        220    108     74      4    48%   58, 70, 84-88, 99-101, 109, 138-140, 148, 172-196, 205, 210, 229, 240-247, 255, 286-290, 300-304, 312, 342-346, 349-354, 376, 390-395, 398, 418, 431-433, 436, 451, 466, 481, 496, 507-509, 512, 525, 536-538, 541, 554, 565-567, 575, 612-617, 629, 661-665, 673-682, 685, 707-711
+--------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                       1647    780    769     92    48%
+
+=========================== short test summary info ============================
+FAILED generated_tests/python/test_converters.py::test_default_if_none_raises_value_error_with_factory_takes_self - Failed: DID NOT RAISE <class 'ValueError'>
+========================= 1 failed, 27 passed in 0.41s =========================
