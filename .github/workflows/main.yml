@@ -5,6 +5,7 @@ on:
      - main
      - "feature/*"
      - eleanor-br
+     - ashley-br
    paths:
      - '**.py'
      - '**.js'
