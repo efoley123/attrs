@@ -1,0 +1,214 @@
+============================= test session starts ==============================
+platform linux -- Python 3.8.18, pytest-8.3.3, pluggy-1.5.0
+rootdir: /home/runner/work/attrs/attrs
+configfile: ov-report=term-missing
+plugins: hypothesis-6.113.0, cov-5.0.0
+collected 26 items
+
+generated_tests/python/test_validators.py ...F...F...F.F...F....F.F.     [100%]
+
+=================================== FAILURES ===================================
+_____________ TestValidators.test_instance_of_with_incorrect_type ______________
+
+self = <test_validators.TestValidators object at 0x7ff9fd398c40>
+
+    def test_instance_of_with_incorrect_type(self):
+        validator = instance_of(int)
+        with pytest.raises(TypeError):
+>           validator(None, None, "string")
+
+generated_tests/python/test_validators.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <instance_of validator for type <class 'int'>>, inst = None, attr = None
+value = 'string'
+
+    def __call__(self, inst, attr, value):
+        """
+        We use a callable class to be able to change the ``__repr__``.
+        """
+        if not isinstance(value, self.type):
+>           msg = f"'{attr.name}' must be {self.type!r} (got {value!r} that is a {value.__class__!r})."
+E           AttributeError: 'NoneType' object has no attribute 'name'
+
+src/attr/validators.py:100: AttributeError
+____________________ TestValidators.test_matches_re_failure ____________________
+
+self = <test_validators.TestValidators object at 0x7ff9fd32b820>
+
+    def test_matches_re_failure(self):
+        validator = matches_re(r"\d+", func=fullmatch)
+        with pytest.raises(ValueError):
+>           validator(None, None, "abc")
+
+generated_tests/python/test_validators.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <matches_re validator for pattern re.compile('\\d+')>, inst = None
+attr = None, value = 'abc'
+
+    def __call__(self, inst, attr, value):
+        """
+        We use a callable class to be able to change the ``__repr__``.
+        """
+        if not self.match_func(value):
+>           msg = f"'{attr.name}' must match regex {self.pattern.pattern!r} ({value!r} doesn't)"
+E           AttributeError: 'NoneType' object has no attribute 'name'
+
+src/attr/validators.py:139: AttributeError
+__________________ TestValidators.test_in_with_invalid_option __________________
+
+self = <test_validators.TestValidators object at 0x7ff9fd3764c0>
+
+    def test_in_with_invalid_option(self):
+        validator = in_([1, 2, 3])
+        with pytest.raises(ValueError):
+>           validator(None, None, 4)
+
+generated_tests/python/test_validators.py:81: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <in_ validator with options [1, 2, 3]>, inst = None, attr = None
+value = 4
+
+    def __call__(self, inst, attr, value):
+        try:
+            in_options = value in self.options
+        except TypeError:  # e.g. `1 in "abc"`
+            in_options = False
+    
+        if not in_options:
+>           msg = f"'{attr.name}' must be in {self._original_options!r} (got {value!r})"
+E           AttributeError: 'NoneType' object has no attribute 'name'
+
+src/attr/validators.py:246: AttributeError
+______________ TestValidators.test_is_callable_with_non_callable _______________
+
+self = <test_validators.TestValidators object at 0x7ff9fd376760>
+
+    def test_is_callable_with_non_callable(self):
+        validator = is_callable()
+        with pytest.raises(NotCallableError):
+>           validator(None, None, "not callable")
+
+generated_tests/python/test_validators.py:90: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <is_callable validator>, inst = None, attr = None, value = 'not callable'
+
+    def __call__(self, inst, attr, value):
+        """
+        We use a callable class to be able to change the ``__repr__``.
+        """
+        if not callable(value):
+            message = (
+                "'{name}' must be callable "
+                "(got {value!r} that is a {actual!r})."
+            )
+            raise NotCallableError(
+                msg=message.format(
+>                   name=attr.name, value=value, actual=value.__class__
+                ),
+                value=value,
+            )
+E           AttributeError: 'NoneType' object has no attribute 'name'
+
+src/attr/validators.py:306: AttributeError
+___________________ TestValidators.test_lt_validator_failure ___________________
+
+self = <test_validators.TestValidators object at 0x7ff9fd376e20>
+
+    def test_lt_validator_failure(self):
+        validator = lt(10)
+        with pytest.raises(ValueError):
+>           validator(None, None, 10)
+
+generated_tests/python/test_validators.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <Validator for x < 10>, inst = None, attr = None, value = 10
+
+    def __call__(self, inst, attr, value):
+        """
+        We use a callable class to be able to change the ``__repr__``.
+        """
+        if not self.compare_func(value, self.bound):
+>           msg = f"'{attr.name}' must be {self.compare_op} {self.bound}: {value}"
+E           AttributeError: 'NoneType' object has no attribute 'name'
+
+src/attr/validators.py:432: AttributeError
+________________ TestValidators.test_max_len_validator_failure _________________
+
+self = <test_validators.TestValidators object at 0x7ff9fccaa400>
+
+    def test_max_len_validator_failure(self):
+        validator = max_len(5)
+        with pytest.raises(ValueError):
+>           validator(None, None, "123456")
+
+generated_tests/python/test_validators.py:128: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <max_len validator for 5>, inst = None, attr = None, value = '123456'
+
+    def __call__(self, inst, attr, value):
+        """
+        We use a callable class to be able to change the ``__repr__``.
+        """
+        if len(value) > self.max_length:
+>           msg = f"Length of '{attr.name}' must be <= {self.max_length}: {len(value)}"
+E           AttributeError: 'NoneType' object has no attribute 'name'
+
+src/attr/validators.py:508: AttributeError
+________________ TestValidators.test_min_len_validator_failure _________________
+
+self = <test_validators.TestValidators object at 0x7ff9fccaa700>
+
+    def test_min_len_validator_failure(self):
+        validator = min_len(5)
+        with pytest.raises(ValueError):
+>           validator(None, None, "1234")
+
+generated_tests/python/test_validators.py:137: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <min_len validator for 5>, inst = None, attr = None, value = '1234'
+
+    def __call__(self, inst, attr, value):
+        """
+        We use a callable class to be able to change the ``__repr__``.
+        """
+        if len(value) < self.min_length:
+>           msg = f"Length of '{attr.name}' must be >= {self.min_length}: {len(value)}"
+E           AttributeError: 'NoneType' object has no attribute 'name'
+
+src/attr/validators.py:537: AttributeError
+
+---------- coverage: platform linux, python 3.8.18-final-0 -----------
+Name                                                                                       Stmts   Miss Branch BrPart  Cover   Missing
+--------------------------------------------------------------------------------------------------------------------------------------
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/__init__.py           31     11      4      0    57%   84-98
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/_cmp.py               52     43     24      0    12%   60-109, 117-123, 131-146, 153, 160
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/_compat.py            43     10     10      4    70%   23-24, 55-56, 63, 67, 79, 101-103
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/_config.py             9      5      2      0    36%   16-20, 31
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/_funcs.py            123    112     78      0     5%   63-131, 145-204, 249-323, 339-351, 386-394, 430-448, 504-522
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/_make.py             988    378    517     80    57%   74, 77, 99, 162-163, 167-170, 172-173, 176->180, 181, 184, 187, 239-240, 297-303, 310, 317-341, 360-367, 389, 391-410, 435, 444-445, 456-457, 463, 482-528, 543-551, 558, 628-630, 651-671, 673->exit, 680, 693, 701, 713->726, 715->714, 734-737, 762->770, 765-766, 773-775, 785->793, 802, 808-823, 843, 877-879, 882, 892-901, 916, 924-940, 981, 988-1005, 1035, 1040-1060, 1087-1088, 1092, 1103-1104, 1115-1116, 1123, 1130-1131, 1146-1147, 1171-1175, 1271-1273, 1287, 1297-1298, 1327, 1347, 1351-1352, 1358-1359, 1368-1369, 1377-1380, 1387, 1442-1446, 1466-1468, 1477-1487, 1513-1517, 1542-1546, 1572, 1583-1586, 1592-1595, 1601-1604, 1610-1613, 1663, 1722-1742, 1764-1771, 1783-1789, 1796-1797, 1819-1820, 1833-1837, 1839, 1857->1861, 1893, 1902, 1915, 1936-1957, 2033-2054, 2056-2064, 2078, 2083-2088, 2097, 2104-2120, 2139, 2160, 2181-2188, 2193-2195, 2201-2210, 2214, 2357, 2365-2366, 2588-2592, 2605-2610, 2645, 2651-2652, 2713->exit, 2714-2723, 2729, 2748-2754, 2761, 2771, 2826-2876, 2892-2893, 2908-2916, 2935-2960
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/_next_gen.py          37     25     12      0    24%   347-411, 588, 613, 629
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/_version_info.py      36     21     10      0    37%   43-47, 59-68, 71-76, 79-86
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/converters.py         48     35     26      4    23%   37-52, 82-83, 86-87, 90, 93-101, 106-109, 142-151
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/exceptions.py         19      4      0      0    79%   90-92, 95
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/filters.py            13      9      2      0    27%   14, 36-45, 63-72
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/setters.py            28     19     10      0    24%   19-24, 35, 44-53, 63-73
+/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/attr/validators.py        220    108     74      4    48%   58, 70, 84-88, 99-101, 109, 138-140, 148, 172-196, 205, 210, 229, 240-247, 255, 286-290, 300-304, 312, 342-346, 349-354, 376, 390-395, 398, 418, 431-433, 436, 451, 466, 481, 496, 507-509, 512, 525, 536-538, 541, 554, 565-567, 575, 612-617, 629, 661-665, 673-682, 685, 707-711
+--------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                       1647    780    769     92    48%
+
+=========================== short test summary info ============================
+FAILED generated_tests/python/test_validators.py::TestValidators::test_instance_of_with_incorrect_type - AttributeError: 'NoneType' object has no attribute 'name'
+FAILED generated_tests/python/test_validators.py::TestValidators::test_matches_re_failure - AttributeError: 'NoneType' object has no attribute 'name'
+FAILED generated_tests/python/test_validators.py::TestValidators::test_in_with_invalid_option - AttributeError: 'NoneType' object has no attribute 'name'
+FAILED generated_tests/python/test_validators.py::TestValidators::test_is_callable_with_non_callable - AttributeError: 'NoneType' object has no attribute 'name'
+FAILED generated_tests/python/test_validators.py::TestValidators::test_lt_validator_failure - AttributeError: 'NoneType' object has no attribute 'name'
+FAILED generated_tests/python/test_validators.py::TestValidators::test_max_len_validator_failure - AttributeError: 'NoneType' object has no attribute 'name'
+FAILED generated_tests/python/test_validators.py::TestValidators::test_min_len_validator_failure - AttributeError: 'NoneType' object has no attribute 'name'
+========================= 7 failed, 19 passed in 0.49s =========================
