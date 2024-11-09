@@ -176,15 +176,23 @@ class TestGenerator:
        limited_test_files = related_test_files[:1]# List
        return limited_test_files  # List
   
-  def generate_coverage_report(self, file_name:str, test_file: Path, language: str):
+  def generate_coverage_report(self, file_name: str, test_file: Path, language: str):
         """Generate a code coverage report and save it as a text file."""
         report_file = test_file.parent / f"{test_file.stem}_coverage_report.txt"
-        base_name = Path(file_name).stem
+        
+        if language == "Python":
+            # Get the full path of the base file and replace slashes with dots
+            base_name = Path(file_name).resolve().with_suffix('')  # Remove the .py extension
+            base_name = str(base_name).replace('/', '.')
+        else:
+            # For other languages, the base_name remains the stem of the file
+            base_name = Path(file_name).stem
+
         try:
             # Run tests with coverage based on language
             if language == "Python":
                 subprocess.run(
-                    ["pytest", str(test_file), "--cov="+str(base_name), "-cov-report=term-missing"],
+                    ["pytest", str(test_file), "--cov=" + str(base_name), "-cov-report=term-missing"],
                     stdout=open(report_file, "w"),
                     check=True
                 )
